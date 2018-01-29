@@ -9,6 +9,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketFactory;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -26,6 +36,32 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        //ExampleApp ex=new ExampleApp();
+       // ex.onCreate();
+       // ex.openSocketConnection();
+
+        String url="ws://api.parad:8000/notice?token=";
+        String token="SDWwAe7N5N35OIA1QMDzv0fA6Dw7ZvLZ_1513852454";
+
+        WebSocketFactory factory = new WebSocketFactory();
+        WebSocket ws = null;
+        try {
+            ws = factory.createSocket(url+token, 5000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ws.addListener(new WebSocketAdapter() {
+            @Override
+            public void onTextMessage(WebSocket websocket, String message) throws Exception {
+                // Received a text message.
+
+            }
+        });
+
+
+
     }
 
     @Override
@@ -49,4 +85,23 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+       // EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+       // EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void handleRealTimeMessage(RealTimeEvent event) {
+        // processing of all real-time events
+    }
+
+
 }

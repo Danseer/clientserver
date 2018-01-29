@@ -48,7 +48,7 @@ public class ExampleSocketConnection implements ClientWebSocket.MessageListener 
        // if (!Preferences.getManager().isAuth()) {
         String url="ws://api.parad:8000/notice?token=";
         String token="SDWwAe7N5N35OIA1QMDzv0fA6Dw7ZvLZ_1513852454";
-        if (isAuth()) {
+        if (!isAuth()) {
             Log.i("Websocket", "Error: User is not authorize");
             return;
         }
@@ -61,7 +61,7 @@ public class ExampleSocketConnection implements ClientWebSocket.MessageListener 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        initScreenStateListener();
+       // initScreenStateListener();
         startCheckConnection();
     }
 
